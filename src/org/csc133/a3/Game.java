@@ -75,6 +75,7 @@ public class Game extends Form implements Runnable{
 
 
         this.add(BorderLayout.SOUTH, buttonContainer);
+
         this.show();
 
         new Thread(gw::initSound).start();

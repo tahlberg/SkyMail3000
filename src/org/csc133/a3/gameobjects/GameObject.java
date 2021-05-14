@@ -19,7 +19,7 @@ public class GameObject implements IDrawable, ICollider {
         this.location = new org.csc133.a3.Point(x, y);
         this.size = s;
         this.color = c;
-        collisionVector = new Vector<>();
+        collisionVector = new Vector<GameObject>();
     }
 
     //Changes the location of a created object
@@ -65,7 +65,7 @@ public class GameObject implements IDrawable, ICollider {
     }
 
     public Rectangle getBoundingRectangle(){
-        return new Rectangle((int)this.location.getX()-(size/2),
+        return new Rectangle((int)+this.location.getX()-(size/2),
                 (int)this.location.getY()-(size/2), size, size);
     }
 

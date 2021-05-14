@@ -18,19 +18,27 @@ public class Helicopter extends Movable implements ISteerable {
     private int damageLevel;
     private int healthColor;
     private int lastSkyScraperReached;
-    Image heliImage;
+    private int bladeDeg;
+    Image heliBody;
+    Image heliBlades;
+    Image[] heliBladeRotations = new Image[72];
 
     public Helicopter(double x, double y){
         super(150, x, y, ColorUtil.rgb(0,255,0), 0, 0);
         this.maximumSpeed = 50;
-        this.lastSkyScraperReached = 1;
+        this.lastSkyScraperReached = 0;
         this.fuelLevel = 1000;
         this.fuelConsumptionRate = 2;
         this.damageLevel = 0;
         this.healthColor = 255;
+        this.bladeDeg = 0;
         try{
-            heliImage = Image.createImage("/helicopter.png");
+            heliBody = Image.createImage("/helicopterbody.png");
+            heliBlades = Image.createImage("/helicopterblades.png");
         } catch (IOException e) {e.printStackTrace();}
+        for(int i = 0; i < heliBladeRotations.length; i++){
+            heliBladeRotations[i] = heliBlades.rotate(5*i);
+        }
     }
 
     //Returns the last reached SkyScraper object
@@ -127,20 +135,28 @@ public class Helicopter extends Movable implements ISteerable {
     @Override
     public String toString(){
         String objString;
-        objString = "Helicopter: " + super.toString() + " maxSpeed=" + this.maximumSpeed +
-                " stickAngle=" + stickAngle + " fuelLevel=" + fuelLevel +
-                " damageLevel=" + damageLevel;
+        objString = "Helicopter: " + super.toString() + " maxSpeed="
+                + this.maximumSpeed + " stickAngle=" + stickAngle
+                + " fuelLevel=" + fuelLevel + " damageLevel=" + damageLevel;
         return objString;
     }
 
     @Override
     public void draw(Graphics g, Point containerOrigin) {
+        if(this.getSpeed() != 0){
+            this.bladeDeg += 1*this.getSpeed()/5;
+            if(bladeDeg > 71){
+                bladeDeg = bladeDeg-72;
+            }
+        }
         int xTransformation =
                 (int) (containerOrigin.getX()+getLocation().getX()-getSize()/2);
         int yTransformation =
                 (int) (containerOrigin.getY()+getLocation().getY()-getSize()/2);
         g.setColor(this.getColor());
-        g.drawImage(heliImage.rotate(270-this.getHeading()),xTransformation,
+        g.drawImage(heliBody.rotate(270-this.getHeading()),xTransformation,
+                yTransformation, getSize(), getSize());
+        g.drawImage(heliBladeRotations[bladeDeg],xTransformation,
                 yTransformation, getSize(), getSize());
     }
 

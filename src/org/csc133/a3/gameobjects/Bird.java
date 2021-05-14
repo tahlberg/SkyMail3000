@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Bird extends Movable {
-    boolean dead;
-    Image birdImage;
+    private boolean dead;
+    private int currentFrame;
+    Image[] birdImages = new Image[3];
 
     public Bird(Point maxPoint){
         super(75+(new Random().nextInt(10)),
@@ -22,8 +23,12 @@ public class Bird extends Movable {
                         new Random().nextDouble(),
                 ColorUtil.rgb(0,0,255),new Random().nextInt(364)
                 , 5+(new Random().nextInt(5)));
+        this.dead = false;
+        this.currentFrame = 0;
         try{
-            birdImage = Image.createImage("/bird.png");
+            birdImages[0] = Image.createImage("/bird.png");
+            birdImages[1] = Image.createImage("/bird2.png");
+            birdImages[2] = Image.createImage("/bird3.png");
         } catch (IOException e) {e.printStackTrace();}
     }
 
@@ -90,12 +95,16 @@ public class Bird extends Movable {
 
     @Override
     public void draw(Graphics g, Point containerOrigin) {
+        this.currentFrame++;
+        if(currentFrame > 2){
+            currentFrame = 0;
+        }
         int xTransformation =
                 (int) (containerOrigin.getX()+getLocation().getX()-getSize()/2);
         int yTransformation =
                 (int) (containerOrigin.getY()+getLocation().getY()-getSize()/2);
         g.setColor(this.getColor());
-        g.drawImage(birdImage.rotate(270-this.getHeading()),xTransformation,
-                yTransformation, getSize(), getSize());
+        g.drawImage(birdImages[currentFrame].rotate(270-this.getHeading()),
+                xTransformation, yTransformation, getSize(), getSize());
     }
 }

@@ -28,8 +28,11 @@ public class GameWorld {
                 randGen.nextDouble(),
                 this.maxGameDim.getY() * randGen.nextDouble());
         //Initialize the skyscrapers
-        SkyScraper skyScraper1 = new
-                SkyScraper(1, initLoc.getX(), initLoc.getY());
+        SkyScraper skyScraper0 = new
+                SkyScraper(0, initLoc.getX(), initLoc.getY());
+        SkyScraper skyScraper1 = new SkyScraper(1,
+                this.maxGameDim.getX() * randGen.nextDouble(),
+                this.maxGameDim.getY() * randGen.nextDouble());
         SkyScraper skyScraper2 = new SkyScraper(2,
                 this.maxGameDim.getX() * randGen.nextDouble(),
                 this.maxGameDim.getY() * randGen.nextDouble());
@@ -39,10 +42,31 @@ public class GameWorld {
         SkyScraper skyScraper4 = new SkyScraper(4,
                 this.maxGameDim.getX() * randGen.nextDouble(),
                 this.maxGameDim.getY() * randGen.nextDouble());
+        SkyScraper skyScraper5 = new SkyScraper(5,
+                this.maxGameDim.getX() * randGen.nextDouble(),
+                this.maxGameDim.getY() * randGen.nextDouble());
+        SkyScraper skyScraper6 = new SkyScraper(6,
+                this.maxGameDim.getX() * randGen.nextDouble(),
+                this.maxGameDim.getY() * randGen.nextDouble());
+        SkyScraper skyScraper7 = new SkyScraper(7,
+                this.maxGameDim.getX() * randGen.nextDouble(),
+                this.maxGameDim.getY() * randGen.nextDouble());
+        SkyScraper skyScraper8 = new SkyScraper(8,
+                this.maxGameDim.getX() * randGen.nextDouble(),
+                this.maxGameDim.getY() * randGen.nextDouble());
+        SkyScraper skyScraper9 = new SkyScraper(9,
+                this.maxGameDim.getX() * randGen.nextDouble(),
+                this.maxGameDim.getY() * randGen.nextDouble());
+        this.gameObjectList.add(skyScraper0);
         this.gameObjectList.add(skyScraper1);
         this.gameObjectList.add(skyScraper2);
         this.gameObjectList.add(skyScraper3);
         this.gameObjectList.add(skyScraper4);
+        this.gameObjectList.add(skyScraper5);
+        this.gameObjectList.add(skyScraper6);
+        this.gameObjectList.add(skyScraper7);
+        this.gameObjectList.add(skyScraper8);
+        this.gameObjectList.add(skyScraper9);
         //Initialize the refueling blimps
         RefuelingBlimp refuelingBlimp1 = new RefuelingBlimp(this.maxGameDim);
         RefuelingBlimp refuelingBlimp2 = new RefuelingBlimp(this.maxGameDim);
@@ -158,11 +182,11 @@ public class GameWorld {
 
         //Increment game clock
         this.gameClock++;
-        System.out.println("Game clock has advanced to " + this.gameClock);
+        //System.out.println("Game clock has advanced to " + this.gameClock);
         //Display map to console
-        this.map();
+        //this.map();
         //Display game info to console
-        this.display();
+        //this.display();
         //Check if NPH objects are destroyed
         for (int i = 0; i < this.gameObjectList.getObjects().size(); i++) {
             if (this.gameObjectList.getObjects().get(i)
@@ -197,11 +221,7 @@ public class GameWorld {
                 this.getGameObjectList().getPlayerHelicopter()
                         .getInstance().getFuelLevel() == 0) {
             System.out.println("You lose a life!");
-            try {
-                lifeSound.play();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            playSound(lifeSound);
             this.playerLives--;
             //Exit on game over
             if (playerLives == 0) {
@@ -328,7 +348,7 @@ public class GameWorld {
                         i.handleCollision(n, this);
                         i.addToCollisionVector(n);
                         n.addToCollisionVector(i);
-                    } else if(i.checkCollisionVector(n)){
+                    } else if(i.checkCollisionVector(n) && !i.collidesWith(n)){
                         i.removeFromCollisionVector(n);
                         n.removeFromCollisionVector(i);
                     }
