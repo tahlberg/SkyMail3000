@@ -175,15 +175,16 @@ public class GameWorld {
             }
         }
         //Reinitialized destroyed blimps and birds
-        for(Object i : this.gameObjectList.getObjects()){
-            if(i instanceof RefuelingBlimp){
-                if(((RefuelingBlimp) i).isEmpty()){
+        for(int i = 0; i < this.gameObjectList.size(); i++){
+            Object currObj = this.gameObjectList.getObjects().get(i);
+            if(currObj instanceof RefuelingBlimp){
+                if(((RefuelingBlimp) currObj).isEmpty()){
                     this.getGameObjectList().getObjects().remove(i);
                     this.getGameObjectList().getObjects().add(new
                             RefuelingBlimp(maxGameDim));
                 }
-            } else if(i instanceof Bird){
-                if(((Bird) i).isDead()){
+            } else if(currObj instanceof Bird){
+                if(((Bird) currObj).isDead()){
                     this.getGameObjectList().getObjects().remove(i);
                     this.getGameObjectList().getObjects().add(new
                             Bird(maxGameDim));

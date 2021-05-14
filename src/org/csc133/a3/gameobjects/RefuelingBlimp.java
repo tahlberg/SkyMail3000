@@ -39,7 +39,7 @@ public class RefuelingBlimp extends Fixed {
     }
 
     public boolean isEmpty(){
-        return isEmpty();
+        return empty;
     }
 
     @Override
